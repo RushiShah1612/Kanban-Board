@@ -1,12 +1,18 @@
 # 📋 Kanban Board
 
-A modern, feature-rich Kanban board application built with React, TypeScript, and Tailwind CSS. Organize your tasks efficiently with drag-and-drop functionality, priority tagging, and due date tracking.
+A modern, full-stack Kanban board application built with React, Node.js, and TypeScript. Organize your tasks efficiently with drag-and-drop functionality, user authentication, and persistent data storage.
 
-![Kanban Board](https://img.shields.io/badge/React-18-blue?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript) ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-blue?logo=tailwindcss) ![Vite](https://img.shields.io/badge/Vite-5-purple?logo=vite)
+![React](https://img.shields.io/badge/React-18-blue?logo=react) ![Node.js](https://img.shields.io/badge/Node.js-18-green?logo=nodedotjs) ![Express](https://img.shields.io/badge/Express-4-lightgrey?logo=express) ![SQLite](https://img.shields.io/badge/SQLite-3-blue?logo=sqlite) ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript) ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-blue?logo=tailwindcss)
 
 ---
 
 ## ✨ Features
+
+### 🔐 Authentication & Security
+- **User Registration**: Secure sign-up with email and password.
+- **Login System**: JWT-based authentication for secure sessions.
+- **Password Strength**: Real-time password complexity validation (Regex).
+- **Protected Routes**: Main board is accessible only to logged-in users.
 
 ### 📊 Dynamic Columns
 - **Create** new columns to match your workflow
@@ -24,24 +30,10 @@ A modern, feature-rich Kanban board application built with React, TypeScript, an
 - Smooth, intuitive drag-and-drop powered by [@dnd-kit](https://dndkit.com/)
 - Move cards between columns effortlessly
 - Reorder cards within the same column
-- Visual feedback during drag operations
 
-### 📅 Due Date Tracking
-- Set due dates for cards with a date picker
-- Smart relative date display:
-  - "Due today" / "Due tomorrow"
-  - "Due in X days"
-  - "Overdue by X days"
-- Color-coded urgency indicators:
-  - 🔴 Red - Overdue
-  - 🟠 Orange - Due today
-  - 🟡 Yellow - Due within 2 days
-  - ⚪ Gray - Due later
-
-### 💾 Local Persistence
-- Automatic save to localStorage
-- Data persists across browser sessions
-- No account required - works offline
+### 💾 Data Persistence
+- **SQLite Database**: User accounts are stored securely.
+- **Local Storage**: Temporary board state persistence (migrating to DB soon).
 
 ---
 
@@ -49,127 +41,89 @@ A modern, feature-rich Kanban board application built with React, TypeScript, an
 
 | Technology | Purpose |
 |------------|---------|
-| **React 18** | UI library with hooks |
-| **TypeScript** | Type-safe JavaScript |
-| **Vite** | Fast build tool & dev server |
-| **Tailwind CSS** | Utility-first styling |
-| **@dnd-kit** | Drag-and-drop functionality |
-| **localStorage** | Client-side data persistence |
+| **React 18** | Frontend UI library |
+| **Node.js & Express** | Backend API server |
+| **SQLite** | Database for user data |
+| **JWT** | Authentication & Security |
+| **TypeScript** | Type-safe development |
+| **Tailwind CSS** | Styling & Design System |
+| **Vite** | Fast build tool |
+| **@dnd-kit** | Drag-and-drop interactions |
 
 ---
 
 ## 🚀 Getting Started
 
+You need to run both the **Backend** and **Frontend** servers.
+
 ### Prerequisites
 - Node.js 16+ installed
 - npm or yarn package manager
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/kanban-board.git
-   cd kanban-board
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:5173`
-
-### Build for Production
+### 1. Backend Setup
+The backend handles authentication and the database.
 
 ```bash
-npm run build
-```
+# Go to server directory
+cd server
 
-The built files will be in the `dist/` directory.
+# Install dependencies
+npm install
+
+# Start the server
+npm start
+```
+*Server runs on `http://localhost:5000`*
+
+### 2. Frontend Setup
+Open a **new terminal** window for the frontend.
+
+```bash
+# Return to root directory (if needed)
+# cd ..
+
+# Install dependencies
+npm install
+
+# Start the React app
+npm run dev
+```
+*Frontend runs on `http://localhost:5173` (typically)*
+
+### 3. Usage
+1.  Open your browser to the local URL (e.g., `http://localhost:5173`).
+2.  Click **"Sign up"** to create an account.
+3.  Log in to access your personal Kanban board.
 
 ---
 
 ## 📁 Project Structure
 
 ```
-src/
-├── components/
-│   ├── AddColumnButton.tsx   # Button to add new columns
-│   ├── CardItem.tsx          # Individual card component
-│   ├── CardModal.tsx         # Modal for add/edit cards
-│   └── Column.tsx            # Column container component
-├── hooks/
-│   └── useLocalStorage.ts    # Custom hook for localStorage
-├── types/
-│   └── kanban.ts             # TypeScript type definitions
-├── App.tsx                   # Main application component
-├── index.css                 # Global styles & Tailwind imports
-├── main.tsx                  # Application entry point
+├── server/               # Backend logic
+│   ├── index.js          # Express server entry point
+│   ├── db.js             # SQLite database connection
+│   ├── middleware/       # Auth middleware
+│   └── routes/           # API routes (Auth)
+├── src/                  # Frontend logic
+│   ├── components/       # Reusable UI components
+│   ├── context/          # State management (AuthContext)
+│   ├── hooks/            # Custom React hooks
+│   ├── pages/            # Page components (Login, Board)
+│   ├── types/            # TypeScript definitions
+│   ├── App.tsx           # Routing & App setup
+│   └── main.tsx          # Entry point
+└── ...
 ```
-
----
-
-## 📖 Usage Guide
-
-### Creating a Column
-1. Click the **"+ Add Column"** button on the right
-2. A new column will appear with a default name
-3. Click the **⋮** menu to rename it
-
-### Adding a Card
-1. Click **"+ Add Card"** at the bottom of any column
-2. Fill in the card details:
-   - **Title** (required)
-   - **Description** (optional)
-   - **Priority** (Low/Medium/High)
-   - **Due Date** (optional)
-3. Click **"Add Card"** to save
-
-### Moving Cards
-- **Drag** any card and **drop** it into another column
-- Cards can also be reordered within the same column
-
-### Editing a Card
-1. Click the **pencil icon** (✏️) on any card
-2. Modify the details in the modal
-3. Click **"Save Changes"**
-
-### Deleting Items
-- **Cards**: Click the **trash icon** (🗑️) on the card
-- **Columns**: Click **⋮** menu → **Delete Column**
-
----
-
-## 🎨 Design Features
-
-- **Dark gradient background** for reduced eye strain
-- **Glass-morphism header** with blur effects
-- **Smooth animations** and hover transitions
-- **Responsive design** that works on all screen sizes
-- **Color-coded priorities** for quick visual scanning
-- **Card count badges** on each column header
 
 ---
 
 ## 🔮 Future Enhancements
 
-- [ ] **Backend Integration** - Firebase/Supabase for cloud sync
-- [ ] **User Authentication** - Personal boards for each user
-- [ ] **Board Templates** - Pre-made workflows (Scrum, Marketing, etc.)
-- [ ] **Card Labels** - Custom colored tags
-- [ ] **Card Comments** - Discussion threads on cards
-- [ ] **Card Attachments** - File uploads
-- [ ] **Search & Filter** - Find cards quickly
-- [ ] **Board Sharing** - Collaborate with team members
-- [ ] **Activity Log** - Track all changes
-- [ ] **Keyboard Shortcuts** - Power user features
-- [ ] **Dark/Light Mode Toggle** - Theme preferences
+- [ ] **Database Logic for Boards**: Move board state from localStorage to SQLite.
+- [ ] **Board Sharing**: Collaborate with team members.
+- [ ] **Activity Log**: Track all changes.
+- [ ] **Dark/Light Mode Toggle**: Theme preferences.
 
 ---
 
@@ -188,17 +142,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- [@dnd-kit](https://dndkit.com/) for the excellent drag-and-drop library
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Heroicons](https://heroicons.com/) for the beautiful icons (via inline SVGs)
-
----
-
-<p align="center">
-  Made with ❤️ using React + TypeScript + Tailwind CSS
-</p>
